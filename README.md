@@ -57,10 +57,10 @@ Cluster these clips with cd-hit:
 cd-hit-est -i top.fasta -o top.cdhit -sc -sf
 ```
 
-Summarise the clusters found by cd-hit:
+Summarise the clusters found by cd-hit (produces a table and plot of cluster size distribution):
 
 ```
-
+python parse_cdhit.py --clusters top.cdhit.clstr --fasta top.cdhit --species species
 ```
 
 Send interesting looking clusters to MAFFT to produce multiple alignments:
