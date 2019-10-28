@@ -54,13 +54,13 @@ done | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" > top.fasta
 Cluster these clips with cd-hit:
 
 ```
-cd-hit-est -i top.fasta -o top.cdhit -sc -sf
+cd-hit-est -i top.fasta -o top.cdhit -sc -sf -d 100
 ```
 
 Summarise the clusters found by cd-hit (produces a table and plot of cluster size distribution):
 
 ```
-python parse_cdhit.py --clusters top.cdhit.clstr --fasta top.cdhit --species species
+python ../parse_cdhit.py --clusters top.cdhit.clstr --fasta top.cdhit --species species
 ```
 
 Send interesting looking clusters to MAFFT to produce multiple alignments:
