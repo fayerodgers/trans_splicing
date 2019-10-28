@@ -114,14 +114,14 @@ def parse_sam(sam, nbases, unique_sam_file, multi_sam_file, unique_clips_file, m
 		lclip=get_left_clipping(cigar,seq,start_pos,nbases)
 		rclip=get_right_clipping(cigar,seq,start_pos,nbases)
 		if lclip is not None:
-			write_fasta(lclip[1],read_name,mapq, unique_clips_file, multi_clips_file)
+			write_fasta(lclip[1],read_name,mapq, unique_clips_file, multi_clips_file,scaffold,lclip[0])
 			if mapq == 255:
 				unique_mappers=add_to_coords(lclip[0],scaffold,unique_mappers)
 			else:
 				multi_mappers=add_to_coords(lclip[0],scaffold,multi_mappers)
 			clips = clips + 1
 		if rclip is not None:
-			write_fasta(rclip[1],read_name,mapq,unique_clips_file, multi_clips_file)
+			write_fasta(rclip[1],read_name,mapq,unique_clips_file, multi_clips_file,scaffold,rclip[0])
                         if mapq == 255:
                                 unique_mappers=add_to_coords(rclip[0],scaffold,unique_mappers)
                         else:
@@ -135,11 +135,11 @@ def parse_sam(sam, nbases, unique_sam_file, multi_sam_file, unique_clips_file, m
 			multi_sam_file.write(line)
 	return(unique_mappers,multi_mappers)
 
-def write_fasta(sequence,read_name,mapq,unique_clips_file, multi_clips_file):
+def write_fasta(sequence,read_name,mapq,unique_clips_file, multi_clips_file,scaffold,pos):
 	if mapq == 255:
-		unique_clips_file.write(">" + read_name + "\n" + sequence + "\n")
+		unique_clips_file.write(">" + read_name + ";scaffold=" + scaffold + ";coordinate=" + str(pos) + ";\n" + sequence + "\n")
 	else:
-		multi_clips_file.write(">" + read_name + "\n" + sequence + "\n")
+		multi_clips_file.write(">" + read_name + ";scaffold=" + scaffold + ";coordinate=" + str(pos) + ";\n" + sequence + "\n")
 	
 def identify_ts_candidates(coords,nreads,genes,transcripts,out_file,upstream_bases):
 	for scaffold in coords.keys():
