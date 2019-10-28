@@ -48,7 +48,7 @@ cut -f 4 unique_mapper_candidates.txt | sort | uniq -c | awk '$1~/^1$/{print $2}
   grep $id unique_mapper_candidates.txt
 done | cut -f 1,2 | while read -r scaffold coord ; do 
   grep -A1 "scaffold=${scaffold};coordinate=${coord}" unique_clips.fasta
-done > top.fasta
+done | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" > top.fasta
 ```
 
 Cluster these clips with cd-hit:
@@ -66,7 +66,7 @@ python parse_cdhit.py --clusters top.cdhit.clstr --fasta top.cdhit --species spe
 Send interesting looking clusters to MAFFT to produce multiple alignments:
 
 ```
-
+./generate_alignments.sh schistosoma_mansoni/top.cdhit.clstr cluster schistosoma_mansoni/top.fasta 
 ```
 
 
