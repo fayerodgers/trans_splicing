@@ -25,7 +25,7 @@ Parse BAM file:
 
 ```
 bsub -o test.o -e test.e -R'select[mem>=500] rusage[mem=500] span[hosts=1]' -M 500 \
-'samtools view -h ./Aligned.sortedByCoord.out.bam | python ../parse_clipped_reads.py \
+'samtools view -h ./Aligned.sortedByCoord.out.bam | python ../parse_sam.py \
 --gff GFF \
 --nreads 10 \
 --nbases 15 \
