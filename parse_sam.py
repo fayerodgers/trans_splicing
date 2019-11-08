@@ -1,11 +1,14 @@
 import sys
 import json
 import re
+import pysam
 import argparse
+import matplotlib.pyplot as plt
 sys.path.append('../isoseq_scripts')
 import isoseq
 
 parser=argparse.ArgumentParser(description='Find leading coding exons that overlap regions with high levels of soft clipping')
+parser.add_argument('--bam', action='store',help='BAM')
 parser.add_argument('--gff', action='store',help='GFF')
 parser.add_argument('--nreads', action='store',type=int, help='number of reads that have to be clipped at a position to consider it of interest')
 parser.add_argument('--nbases', action='store',type=int, help='only consider reads with at least this number of soft clipped bases')
@@ -14,12 +17,14 @@ parser.add_argument('--upstream_bases', action='store',type=int, help='consider 
 args=parser.parse_args()
 
 
-def add_to_coords(pos,scaffold,coords):
+def add_to_coords(pos,scaffold,coords,clip_type):
 	if scaffold not in coords:
 		coords[scaffold]={}
 	if pos not in coords[scaffold]:
-               coords[scaffold][pos] = 0
-        coords[scaffold][pos] += 1
+               coords[scaffold][pos] = {}
+	if clip_type not in coords[scaffold][pos]:
+		coords[scaffold][pos][clip_type]=0
+        coords[scaffold][pos][clip_type] += 1
 	return(coords)
 
 def find_overlapping_genes(genes,scaffold,pos,upstream_bases):			#for a given genomic coordinate, return all overlapping genes, and genes within upstream_bases 
@@ -95,44 +100,36 @@ def get_right_clipping(cigar,seq,start_pos,nbases):
 	else:
 		return None
 
-def parse_sam(sam, nbases, unique_sam_file, multi_sam_file, unique_clips_file, multi_clips_file):
+def parse_sam(bam, nbases, unique_clips_file, multi_clips_file):
 	unique_mappers={}
 	multi_mappers={}
-	for line in sam:
+	sam = pysam.AlignmentFile(bam, "rb")
+	out_unique=pysam.AlignmentFile("unique.bam","wb",template=sam)
+	out_multi=pysam.AlignmentFile("multi.bam","wb",template=sam)
+	for line in sam.fetch():		
 		clips=0
-        	if re.match('@',line): #headers
-			unique_sam_file.write(line)
-			multi_sam_file.write(line)
-                	continue
-        	fields=line.split("\t")
-        	cigar=fields[5]
-        	start_pos=int(fields[3])
-        	scaffold=fields[2]
-		read_name=fields[0]
-		mapq=int(fields[4])
-		seq=fields[9]
-		lclip=get_left_clipping(cigar,seq,start_pos,nbases)
-		rclip=get_right_clipping(cigar,seq,start_pos,nbases)
+		lclip=get_left_clipping(line.cigarstring,line.query_sequence,line.reference_start,nbases)
+		rclip=get_right_clipping(line.cigarstring,line.query_sequence,line.reference_start,nbases)
 		if lclip is not None:
-			write_fasta(lclip[1],read_name,mapq, unique_clips_file, multi_clips_file,scaffold,lclip[0])
-			if mapq == 255:
-				unique_mappers=add_to_coords(lclip[0],scaffold,unique_mappers)
+			write_fasta(lclip[1],line.query_name,line.mapping_quality, unique_clips_file, multi_clips_file,line.reference_name,lclip[0])
+			if line.mapping_quality == 255:
+				unique_mappers=add_to_coords(lclip[0],line.reference_name,unique_mappers,'left')
 			else:
-				multi_mappers=add_to_coords(lclip[0],scaffold,multi_mappers)
+				multi_mappers=add_to_coords(lclip[0],line.reference_name,multi_mappers,'left')
 			clips = clips + 1
 		if rclip is not None:
-			write_fasta(rclip[1],read_name,mapq,unique_clips_file, multi_clips_file,scaffold,rclip[0])
-                        if mapq == 255:
-                                unique_mappers=add_to_coords(rclip[0],scaffold,unique_mappers)
-                        else:
-                                multi_mappers=add_to_coords(rclip[0],scaffold,multi_mappers)
+			write_fasta(rclip[1],line.query_name,line.mapping_quality,unique_clips_file, multi_clips_file,line.reference_name,rclip[0])
+                	if line.mapping_quality == 255:
+	                	unique_mappers=add_to_coords(rclip[0],line.reference_name,unique_mappers,'right')
+                	else:
+                		multi_mappers=add_to_coords(rclip[0],line.reference_name,multi_mappers,'right')
 			clips = clips + 1
 		if clips == 0:
 			continue
-		elif mapq == 255:
-			unique_sam_file.write(line)
+		elif line.mapping_quality == 255:
+			out_unique.write(line)
 		else:
-			multi_sam_file.write(line)
+			out_multi.write(line)
 	return(unique_mappers,multi_mappers)
 
 def write_fasta(sequence,read_name,mapq,unique_clips_file, multi_clips_file,scaffold,pos):
@@ -141,42 +138,112 @@ def write_fasta(sequence,read_name,mapq,unique_clips_file, multi_clips_file,scaf
 	else:
 		multi_clips_file.write(">" + read_name + ";scaffold=" + scaffold + ";coordinate=" + str(pos) + ";\n" + sequence + "\n")
 	
+def determine_splice_type(my_transcripts,clip_type):
+	splice_types={}
+	for transcript, strand in my_transcripts.items():
+		if strand == '+' and clip_type == 'left':
+			splice_type = 'acceptor'
+		elif strand == '+' and clip_type == 'right':
+			splice_type = 'donor'
+                elif strand == '-' and clip_type == 'left':
+                        splice_type = 'donor'
+                elif strand == '-' and clip_type == 'right':
+                        splice_type = 'acceptor'
+		splice_types[transcript]=splice_type
+	return(splice_types)       
+
+def determine_relative_position(exon,pos,my_transcripts,upstream_bases,cds):
+	relative_positions={}
+	for transcript,exon_coords in exon.items():
+		if pos >= exon_coords[0] and pos <= exon_coords[1]: 
+			rel_position = 'leading'
+		elif my_transcripts[transcript] == '+' and (pos + upstream_bases) <= cds[transcript][0]:
+			rel_position = 'leading'
+		elif my_transcripts[transcript] == '-' and (pos - upstream_bases) >= cds[transcript][1]:
+			rel_position = 'leading'
+		else:
+			rel_position = 'internal'
+		relative_positions[transcript] = rel_position			
+	return(relative_positions)		
+
+
 def identify_ts_candidates(coords,nreads,genes,transcripts,out_file,upstream_bases):
-	for scaffold in coords.keys():
-        	for pos in coords[scaffold].keys():
-                	if coords[scaffold][pos] < nreads:
-                        	continue
-                	overlapping=find_overlapping_genes(genes,scaffold,pos,upstream_bases)
-                	my_transcripts=get_transcripts(transcripts,overlapping)
-                	cds=get_first_cds(transcripts,my_transcripts)
-                	exon=get_exon(transcripts,cds)
-                	for transcript,exon_coords in exon.items():
-                        	if pos >= exon_coords[0] and pos <= exon_coords[1]:			#position falls in the first coding exon
-					out_file.write(scaffold + "\t" + str(pos) + "\t" + str(coords[scaffold][pos]) + "\t" + transcript + "\t" + "in_leading_exon\n") #or within a speficied distance of the start codon
-				elif my_transcripts[transcript] == '+' and (pos + upstream_bases) <= cds[transcript][0]:
-					out_file.write(scaffold + "\t" + str(pos) + "\t" + str(coords[scaffold][pos]) + "\t" + transcript + "\t" + "upstream\n")
-				elif my_transcripts[transcript] == '-' and (pos - upstream_bases) >= cds[transcript][1]:
-					out_file.write(scaffold + "\t" + str(pos) + "\t" + str(coords[scaffold][pos]) + "\t" + transcript + "\t" + "upstream\n")		
-			
+	ts_candidates={}
+	for scaffold,d1 in coords.items():
+		for pos,d2 in d1.items():
+			for clip_type,count in d2.items():
+                		if count < nreads:
+                        		continue
+                		overlapping=find_overlapping_genes(genes,scaffold,pos,upstream_bases)
+                		my_transcripts=get_transcripts(transcripts,overlapping)
+				splice_types=determine_splice_type(my_transcripts,clip_type)
+                		cds=get_first_cds(transcripts,my_transcripts)	#coordinates of the leading CDS
+                		exon=get_exon(transcripts,cds)	
+				relative_positions=determine_relative_position(exon,pos,my_transcripts,upstream_bases,cds)
+				for transcript in my_transcripts:
+					splice_type=splice_types[transcript]
+					rel_position=relative_positions[transcript]
+					splice_rel = str(splice_type + "_" + rel_position)
+					out_file.write(scaffold + "\t" + str(pos) + "\t" + str(count) + "\t" + transcript + "\t" + splice_type + "\t"+ rel_position + "\n")
+					if transcript not in ts_candidates:
+						ts_candidates[transcript] = {}
+					if splice_rel not in ts_candidates[transcript]:
+						ts_candidates[transcript][splice_rel]=[]
+					ts_candidates[transcript][splice_rel].append(pos)
+
+	return(ts_candidates)
+
+def count_sites(ts_candidates):
+	counts={}
+	splice_types=['donor_internal','donor_leading','acceptor_internal','acceptor_leading']
+	for splice_type in splice_types:
+		counts[splice_type]={}
+		counts[splice_type]['single']=0
+		counts[splice_type]['any']=0
+	for transcript in ts_candidates.keys():
+		for splice_rel in ts_candidates[transcript].keys():
+			count=len(ts_candidates[transcript][splice_rel])
+			if count == 1:
+				counts[splice_rel]['single'] += 1
+			counts[splice_rel]['any'] += 1
+	return(counts)
+							
+
+
+def plot_counts(counts):
+	plt.style.use('ggplot')
+	y = []
+	x=counts.keys()
+	for splice_rel in x:
+		y.append(counts[splice_rel]['single'])
+	x_pos = [i for i, _ in enumerate(x)]
+	plt.bar(x_pos,y, color='green')
+	plt.ylabel("No. of transcripts")
+	plt.title("Putative trans-spliced transcripts")
+	plt.xticks(x_pos,x)
+	plt.show()
+	
+
 
 ##
 
 
 gff=open(args.gff,"r")
-sam=sys.stdin
-unique_sam_file=open("./unique_mappers_clipped.sam","w")
-multi_sam_file=open("./multi_mappers_clipped.sam","w")
 unique_clips_file=open("./unique_clips.fasta","w")
 multi_clips_file=open("./multi_clips.fasta","w")
 unique_mapper_candidates=open("./unique_mapper_candidates.txt","w")
 multi_mapper_candidates=open("./multi_mapper_candidates.txt","w")
 
-
-(unique_mappers,multi_mappers)=parse_sam(sam, args.nbases, unique_sam_file, multi_sam_file, unique_clips_file, multi_clips_file)
+(unique_mappers,multi_mappers)=parse_sam(args.bam, args.nbases, unique_clips_file, multi_clips_file)
 (genes,transcripts)=isoseq.parse_gff(gff)
-identify_ts_candidates(unique_mappers,args.nreads,genes,transcripts,unique_mapper_candidates,args.upstream_bases)
-identify_ts_candidates(multi_mappers,args.nreads,genes,transcripts,multi_mapper_candidates,args.upstream_bases)
+ts_candidates=identify_ts_candidates(unique_mappers,args.nreads,genes,transcripts,unique_mapper_candidates,args.upstream_bases)
+print(json.dumps(ts_candidates,indent=4))
+counts=count_sites(ts_candidates)
+print(json.dumps(counts,indent=4))
+plot_counts(counts)
 
+#identify_ts_candidates(multi_mappers,args.nreads,genes,transcripts,multi_mapper_candidates,args.upstream_bases)
+#produce_summary_plots()
 
 
 				
