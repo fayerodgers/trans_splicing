@@ -210,18 +210,21 @@ def count_sites(ts_candidates):
 							
 
 
-def plot_counts(counts):
+def plot_counts(counts,transcript_type):
 	plt.style.use('ggplot')
-	y = []
-	x=counts.keys()
-	for splice_rel in x:
-		y.append(counts[splice_rel]['single'])
-	x_pos = [i for i, _ in enumerate(x)]
-	plt.bar(x_pos,y, color='green')
+	y_leading = [counts['acceptor_leading'][transcript_type],counts['donor_leading'][transcript_type]]
+	y_internal = [counts['acceptor_internal'][transcript_type],counts['donor_internal'][transcript_type]]
+	x=('Acceptor sites', 'Donor sites')
+	x_pos = [1,2]
+	p1 = plt.bar(x_pos,y_leading)
+	p2 = plt.bar(x_pos,y_internal,bottom=y_leading)
+#	plt.bar(x_pos,y, color='green')
 	plt.ylabel("No. of transcripts")
 	plt.title("Putative trans-spliced transcripts")
 	plt.xticks(x_pos,x)
-	plt.show()
+	plt.legend((p1[0], p2[0]), ('5prime sites', 'Internal sites'))
+#	plt.show()
+	plt.savefig(transcript_type + "_sites.png")
 	
 
 
@@ -240,7 +243,8 @@ ts_candidates=identify_ts_candidates(unique_mappers,args.nreads,genes,transcript
 print(json.dumps(ts_candidates,indent=4))
 counts=count_sites(ts_candidates)
 print(json.dumps(counts,indent=4))
-plot_counts(counts)
+plot_counts(counts,'single')
+plot_counts(counts,'any')
 
 #identify_ts_candidates(multi_mappers,args.nreads,genes,transcripts,multi_mapper_candidates,args.upstream_bases)
 #produce_summary_plots()

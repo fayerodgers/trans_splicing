@@ -10,7 +10,7 @@ parser.add_argument('--species', action='store',help='Species name for plot titl
 args=parser.parse_args()
 
 clusters=open(args.clusters,"r")
-out_file=open("clusters_summary.txt","w")
+out_file=open(args.clusters + "_summary.txt","w")
 
 my_clusters={}
 my_sequences={}
@@ -38,4 +38,4 @@ plt.plot(x,y,'ro',markersize=1)
 plt.ylabel('Cluster size')
 plt.title(args.species)
 #plt.show()
-plt.savefig('clusters.png')
+plt.savefig(args.clusters + '_clusters.png')
