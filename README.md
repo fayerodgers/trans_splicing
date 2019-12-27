@@ -3,14 +3,14 @@
 Generate genome index:
 
 ```
-bsub -o index.o -e index.e -R'select[mem>=25000] rusage[mem=25000] span[hosts=1]' -M 25000 -n 32 STAR --runThreadN 32 --runMode genomeGenerate --genomeDir . --genomeFastaFiles v8_final.fa
+bsub -o index.o -e index.e -R'select[mem>=25000] rusage[mem=25000] span[hosts=1]' -M 25000 -n 32 STAR --runThreadN 32 --runMode genomeGenerate --genomeDir . --genomeFastaFiles genome.fa
 ```
 
 Map reads:
 
 ```
 STAR --runThreadN 8 \
---genomeDir . \
+--genomeDir ../genome \
 --readFilesIn fastq_1.gz fastq_2.gz \
 --readFilesCommand gunzip -c \
 --alignSJoverhangMin 8 \
