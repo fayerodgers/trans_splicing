@@ -8,17 +8,7 @@ bsub -o index.o -e index.e -R'select[mem>=25000] rusage[mem=25000] span[hosts=1]
 
 Map reads:
 
-```
-STAR --runThreadN 8 \
---genomeDir ../genome \
---readFilesIn fastq_1.gz fastq_2.gz \
---readFilesCommand gunzip -c \
---alignSJoverhangMin 8 \
---outFilterMismatchNmax 999 \
---outFilterMismatchNoverReadLmax 0.04 \
---chimSegmentMin 10 \
---chimOutType WithinBAM \
---outSAMtype BAM SortedByCoordinate
+```perl $GIT_HOME/misc_useful_things/call_star.pl --index_dir ../genome/ --annotation ../genome/wbps.gtf --files ../fastq/metadata.txt
 ```
 
 Parse BAM file:
