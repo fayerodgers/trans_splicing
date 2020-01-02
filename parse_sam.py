@@ -4,7 +4,8 @@ import re
 import pysam
 import argparse
 import matplotlib.pyplot as plt
-sys.path.append('../isoseq_scripts')
+import os
+#sys.path.append('../isoseq_scripts')
 import isoseq
 
 parser=argparse.ArgumentParser(description='Find leading coding exons that overlap regions with high levels of soft clipping')
@@ -13,6 +14,7 @@ parser.add_argument('--gff', action='store',help='GFF')
 parser.add_argument('--nreads', action='store',type=int, help='number of reads that have to be clipped at a position to consider it of interest')
 parser.add_argument('--nbases', action='store',type=int, help='only consider reads with at least this number of soft clipped bases')
 parser.add_argument('--upstream_bases', action='store',type=int, help='consider a position if it is within this number of bases of the annotated start codon')
+parser.add_argument('--out_dir', action='store', help='output directory')
 
 args=parser.parse_args()
 
@@ -100,12 +102,12 @@ def get_right_clipping(cigar,seq,start_pos,nbases):
 	else:
 		return None
 
-def parse_sam(bam, nbases, unique_clips_file, multi_clips_file):
+def parse_sam(bam, nbases, unique_clips_file, multi_clips_file,out_dir):
 	unique_mappers={}
 	multi_mappers={}
 	sam = pysam.AlignmentFile(bam, "rb")
-	out_unique=pysam.AlignmentFile("unique.bam","wb",template=sam)
-	out_multi=pysam.AlignmentFile("multi.bam","wb",template=sam)
+	out_unique=pysam.AlignmentFile(os.path.join(out_dir,"unique.bam"),"wb",template=sam)
+	out_multi=pysam.AlignmentFile(os.path.join(out_dir,"multi.bam"),"wb",template=sam)
 	for line in sam.fetch():		
 		clips=0
 		lclip=get_left_clipping(line.cigarstring,line.query_sequence,line.reference_start,nbases)
@@ -210,7 +212,7 @@ def count_sites(ts_candidates):
 							
 
 
-def plot_counts(counts,transcript_type):
+def plot_counts(counts,transcript_type,out_dir):
 	plt.style.use('ggplot')
 	y_leading = [counts['acceptor_leading'][transcript_type],counts['donor_leading'][transcript_type]]
 	y_internal = [counts['acceptor_internal'][transcript_type],counts['donor_internal'][transcript_type]]
@@ -224,7 +226,7 @@ def plot_counts(counts,transcript_type):
 	plt.xticks(x_pos,x)
 	plt.legend((p1[0], p2[0]), ('5prime sites', 'Internal sites'))
 #	plt.show()
-	plt.savefig(transcript_type + "_sites.png")
+	plt.savefig(os.path.join(out_dir,(transcript_type + "_sites.png")))
 	
 
 
@@ -232,19 +234,19 @@ def plot_counts(counts,transcript_type):
 
 
 gff=open(args.gff,"r")
-unique_clips_file=open("./unique_clips.fasta","w")
-multi_clips_file=open("./multi_clips.fasta","w")
-unique_mapper_candidates=open("./unique_mapper_candidates.txt","w")
-multi_mapper_candidates=open("./multi_mapper_candidates.txt","w")
+unique_clips_file=open(os.path.join(args.out_dir,"unique_clips.fasta"),"w")
+multi_clips_file=open(os.path.join(args.out_dir,"multi_clips.fasta"),"w")
+unique_mapper_candidates=open(os.path.join(args.out_dir,"unique_mapper_candidates.txt"),"w")
+multi_mapper_candidates=open(os.path.join(args.out_dir,"multi_mapper_candidates.txt"),"w")
 
-(unique_mappers,multi_mappers)=parse_sam(args.bam, args.nbases, unique_clips_file, multi_clips_file)
+(unique_mappers,multi_mappers)=parse_sam(args.bam, args.nbases, unique_clips_file, multi_clips_file,args.out_dir)
 (genes,transcripts)=isoseq.parse_gff(gff)
 ts_candidates=identify_ts_candidates(unique_mappers,args.nreads,genes,transcripts,unique_mapper_candidates,args.upstream_bases)
 print(json.dumps(ts_candidates,indent=4))
 counts=count_sites(ts_candidates)
 print(json.dumps(counts,indent=4))
-plot_counts(counts,'single')
-plot_counts(counts,'any')
+plot_counts(counts,'single',args.out_dir)
+plot_counts(counts,'any',args.out_dir)
 
 #identify_ts_candidates(multi_mappers,args.nreads,genes,transcripts,multi_mapper_candidates,args.upstream_bases)
 #produce_summary_plots()
