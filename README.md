@@ -1,35 +1,32 @@
 # trans_splicing
 
-Generate genome index:
+Generate BAMs:
 
 ```
-bsub -o index.o -e index.e -R'select[mem>=25000] rusage[mem=25000] span[hosts=1]' -M 25000 -n 32 STAR --runThreadN 32 --runMode genomeGenerate --genomeDir . --genomeFastaFiles v8_final.fa
-```
+bsub -o index.o -e index.e -R'select[mem>=25000] rusage[mem=25000] span[hosts=1]' -M 25000 -n 32 STAR --runThreadN 32 --runMode genomeGenerate --genomeDir . --genomeFastaFiles genome.fa
 
-Map reads:
+perl $GIT_HOME/misc_useful_things/call_star.pl --index_dir ../genome/ --annotation ../genome/wbps.gtf --files ../fastq/metadata.txt
 
-```
-STAR --runThreadN 8 \
---genomeDir . \
---readFilesIn fastq_1.gz fastq_2.gz \
---readFilesCommand gunzip -c \
---alignSJoverhangMin 8 \
---outFilterMismatchNmax 999 \
---outFilterMismatchNoverReadLmax 0.04 \
---chimSegmentMin 10 \
---chimOutType WithinBAM \
---outSAMtype BAM SortedByCoordinate
-```
-
-Parse BAM file:
+for i in $(ls -d */ | sed -e 's/\///'); do bsub -o ${i}/o -e ${i}/e  -R'select[mem>=10000] rusage[mem=10000] span[hosts=1]' -M 10000 -n 8 $GIT_HOME/misc_useful_things/sort_and_index.sh ${i}/${i}Aligned.out.bam ; done
 
 ```
-bsub -o test.o -e test.e -R'select[mem>=500] rusage[mem=500] span[hosts=1]' -M 500 \
-'samtools view -h ./Aligned.sortedByCoord.out.bam | python ../parse_sam.py \
---gff GFF \
---nreads 10 \
---nbases 15 \
---upstream_bases 500'
+
+For each BAM:
+
+```
+for i in $(ls -d */ | sed -e 's/\///'); do
+  mkdir ${i}/out
+  bsub -o ${i}/out/splicing.o -e ${i}/out/splicing.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \ 
+  $GIT_HOME/trans_splicing/trans_splicing.sh \
+  -b ${i}/${i}Aligned.out.bam.sorted.bam  \
+  -g ../genome/wbps.gff3  \
+  -r 5  \         #report positions with at least r clipped reads
+  -n 8 \          #minimum length of the clipped portion
+  -u 500  \       #consider reads that align within this many bases upstream of a gene (useful if UTRs are not annotated)
+  -s echinococcus_multilocularis_${i} \
+  -o ${i}/out
+done
+
 ```
 
 Produces:
