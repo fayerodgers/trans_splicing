@@ -1,36 +1,36 @@
-7893_5#10	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#10_1.fastq.gz
-7893_5#10	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#10_2.fastq.gz
-7893_5#11	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#11_1.fastq.gz
-7893_5#11	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#11_2.fastq.gz
-7893_5#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#12_1.fastq.gz
-7893_5#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#12_2.fastq.gz
-7893_5#1	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#1_1.fastq.gz
-7893_5#1	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#1_2.fastq.gz
-7893_5#2	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#2_1.fastq.gz
-7893_5#2	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#2_2.fastq.gz
-7893_5#3	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#3_1.fastq.gz
-7893_5#3	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#3_2.fastq.gz
-7893_5#4	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#4_1.fastq.gz
-7893_5#4	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#4_2.fastq.gz
-7893_5#5	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#5_1.fastq.gz
-7893_5#5	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#5_2.fastq.gz
-7893_5#6	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#6_1.fastq.gz
-7893_5#6	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#6_2.fastq.gz
-7893_5#7	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#7_1.fastq.gz
-7893_5#7	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#7_2.fastq.gz
-7893_5#8	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#8_1.fastq.gz
-7893_5#8	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#8_2.fastq.gz
-7893_5#9	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#9_1.fastq.gz
-7893_5#9	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#9_2.fastq.gz
-9887_3#13	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_3#13_1.fastq.gz
-9887_3#13	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_3#13_2.fastq.gz
-9887_4#13	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_4#13_1.fastq.gz
-9887_4#13	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_4#13_2.fastq.gz
-9887_5#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_5#12_1.fastq.gz
-9887_5#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_5#12_2.fastq.gz
-9887_6#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_6#12_1.fastq.gz
-9887_6#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_6#12_2.fastq.gz
-9887_7#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_7#12_1.fastq.gz
-9887_7#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_7#12_2.fastq.gz
-9887_8#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_8#12_1.fastq.gz
-9887_8#12	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_8#12_2.fastq.gz
+HmicroWW_R1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#10_1.fastq.gz	7893_5#10	adult_whole
+HmicroWW_R1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#10_2.fastq.gz	7893_5#10	adult_whole
+HmicroWW_R2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#11_1.fastq.gz	7893_5#11	adult_whole
+HmicroWW_R2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#11_2.fastq.gz	7893_5#11	adult_whole
+HmicroWW_R3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#12_1.fastq.gz	7893_5#12	adult_whole
+HmicroWW_R3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#12_2.fastq.gz	7893_5#12	adult_whole
+HmicroS1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#1_1.fastq.gz	7893_5#1	adult_scolex
+HmicroS1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#1_2.fastq.gz	7893_5#1	adult_scolex
+HmicroS2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#2_1.fastq.gz	7893_5#2	adult_scolex
+HmicroS2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#2_2.fastq.gz	7893_5#2	adult_scolex
+HmicroS3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#3_1.fastq.gz	7893_5#3	adult_scolex
+HmicroS3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#3_2.fastq.gz	7893_5#3	adult_scolex
+HmicroM1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#4_1.fastq.gz	7893_5#4	adult_mid_strobilia
+HmicroM1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#4_2.fastq.gz	7893_5#4	adult_mid_strobilia
+HmicroM2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#5_1.fastq.gz	7893_5#5	adult_mid_strobilia
+HmicroM2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#5_2.fastq.gz	7893_5#5	adult_mid_strobilia
+HmicroM3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#6_1.fastq.gz	7893_5#6	adult_mid_strobilia
+HmicroM3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#6_2.fastq.gz	7893_5#6	adult_mid_strobilia
+HmicroE1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#7_1.fastq.gz	7893_5#7	adult_posterior_strobilia
+HmicroE1_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#7_2.fastq.gz	7893_5#7	adult_posterior_strobilia
+HmicroE2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#8_1.fastq.gz	7893_5#8	adult_posterior_strobilia
+HmicroE2_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#8_2.fastq.gz	7893_5#8	adult_posterior_strobilia
+HmicroE3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#9_1.fastq.gz	7893_5#9	adult_posterior_strobilia
+HmicroE3_253205	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/7893_5#9_2.fastq.gz	7893_5#9	adult_posterior_strobilia
+HmicroNL1_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_3#13_1.fastq.gz	9887_3#13	larvae
+HmicroNL1_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_3#13_2.fastq.gz	9887_3#13	larvae
+HmicroNL1_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_4#13_1.fastq.gz	9887_4#13	larvae
+HmicroNL1_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_4#13_2.fastq.gz	9887_4#13	larvae
+HmicroNL2_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_5#12_1.fastq.gz	9887_5#12	larvae
+HmicroNL2_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_5#12_2.fastq.gz	9887_5#12	larvae
+HmicroNL2_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_6#12_1.fastq.gz	9887_6#12	larvae
+HmicroNL2_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_6#12_2.fastq.gz	9887_6#12	larvae
+HmicroNL3_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_7#12_1.fastq.gz	9887_7#12	larvae
+HmicroNL3_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_7#12_2.fastq.gz	9887_7#12	larvae
+HmicroNL3_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_8#12_1.fastq.gz	9887_8#12	larvae
+HmicroNL3_311124	/lustre/scratch118/infgen/team133/alt/HMIC/rnaseq_anno_qc_comp/9887_8#12_2.fastq.gz	9887_8#12	larvae
