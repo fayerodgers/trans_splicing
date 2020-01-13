@@ -1,8 +1,12 @@
-ERR233394	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233394_1.fastq.gz	activated_protoscolex
-ERR233394	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233394_2.fastq.gz	activated_protoscolex
-ERR233395	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233395_1.fastq.gz	nonactivated_protoscolex
-ERR233395	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233395_2.fastq.gz	nonactivated_protoscolex
-ERR233396	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233396_1.fastq.gz	primary_cells_stage_1
-ERR233396	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233396_2.fastq.gz	primary_cells_stage_1
-ERR233397	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233397_1.fastq.gz	primary_cells_stage_2
-ERR233397	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233397_2.fastq.gz	primary_cells_stage_2
+activated_protoscolex	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233394_1.fastq.gz	activated_protoscolex	PRJEB2877	ERR233394
+activated_protoscolex	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233394_2.fastq.gz	activated_protoscolex	PRJEB2877	ERR233394
+nonactivated_protoscolex	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233395_1.fastq.gz	nonactivated_protoscolex	PRJEB2877	ERR233395
+nonactivated_protoscolex	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233395_2.fastq.gz	nonactivated_protoscolex	PRJEB2877	ERR233395
+primary_cells_stage_1	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233396_1.fastq.gz	primary_cells_stage_1	PRJEB2877	ERR233396
+primary_cells_stage_1	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233396_2.fastq.gz	primary_cells_stage_1	PRJEB2877	ERR233396
+primary_cells_stage_2	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233397_1.fastq.gz	primary_cells_stage_2	PRJEB2877	ERR233397
+primary_cells_stage_2	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR233397_2.fastq.gz	primary_cells_stage_2	PRJEB2877	ERR233397
+jird_metacestode_1	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR337946_1.fastq.gz	jird_metacestode	PRJEB5096	ERR337946
+jird_metacestode_1	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR337946_2.fastq.gz	jird_metacestode	PRJEB5097	ERR337946
+jird_metacestode_2	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR337958_1.fastq.gz	jird_metacestode	PRJEB5098	ERR337958
+jird_metacestode_2	/lustre/scratch118/infgen/team133/fr7/git_repos/trans_splicing/e_multilocularis/fastq/ERR337958_2.fastq.gz	jird_metacestode	PRJEB5099	ERR337958
