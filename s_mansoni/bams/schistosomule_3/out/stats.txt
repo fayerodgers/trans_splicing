@@ -1,0 +1,2 @@
+analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
+	22248179	12335936	1419993	0	0	0	0 schistosomule_3/out/transcripts.txt

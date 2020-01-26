@@ -1,0 +1,2 @@
+analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
+	19117384	5435293	746100	250827	192554	108515	2067 sporocyst_2/out/transcripts.txt

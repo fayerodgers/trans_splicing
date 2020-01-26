@@ -1,0 +1,2 @@
+analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
+	6618236	5961112	286820	139168	103557	66494	664 7893_5#2/out/transcripts.txt

@@ -1,0 +1,2 @@
+analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
+	23727384	13493071	2948419	701508	626671	412927	4897 ERR022876/out/transcripts.txt
