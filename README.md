@@ -24,23 +24,17 @@ for i in $(ls -d */ | sed -e 's/\///'); do bsub -o ${i}/sort.o -e ${i}/sort.e  -
 
 ```
 
-Recommended: use the wrapper to run for each BAM indiviudally, eg:
+Parse BAMs to extract soft clips (clipped_reads.fa) and clipping coordinates (coordinates.txt):
 
 ```
 for i in $(ls -d */ | sed -e 's/\///'); do
-  mkdir ${i}/out
-  bsub -o ${i}/out/splicing.o -e ${i}/out/splicing.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \ 
-  $GIT_HOME/trans_splicing/trans_splicing.sh \
-  -b ${i}/${i}Aligned.out.bam.sorted.bam  \
-  -g ../genome/wbps.gff3  \
-  -r 1  \         #report positions with at least r clipped reads
-  -n 5 \          #minimum length of the clipped portion
-  -u 500  \       #consider reads that align within this many bases upstream of a gene (useful if UTRs are not annotated)
-  -s ${SPECIES}_${i} \
-  -o ${i}/out \
-  -t unique
+   mkdir ${i}/out
+   bsub -o ${i}/out/splicing.o -e ${i}/out/splicing.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \
+   python ${GIT_HOME}/trans_splicing/parse_sam.py --bam ${i}/${i}Aligned.out.bam.sorted.bam  --gff ../genome/wbps.gff3 --nreads 1 --nbases 5 --upstream_bases 500 --out_dir ${i}/out --read_types unique --sample_id $i
 done
 ```
+
+
 
 
 
