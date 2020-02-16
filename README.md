@@ -33,6 +33,22 @@ for i in $(ls -d */ | sed -e 's/\///'); do
    python ${GIT_HOME}/trans_splicing/parse_sam.py --bam ${i}/${i}Aligned.out.bam.sorted.bam  --gff ../genome/wbps.gff3 --nreads 1 --nbases 5 --upstream_bases 500 --out_dir ${i}/out --read_types unique --sample_id $i
 done
 ```
+Combine clips from all libraries and cluster:
+
+```
+touch all_clips.fa
+for i in $(ls -d */ | sed -e 's/\///'); do
+   grep -A1 "orientation=acceptor" ${i}/out/clipped_reads.fa  | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" >> all_clips.fa 
+done
+
+cd-hit-est -i all_clips.fa -o clips_cdhit -sc 1 -sf 1 -d 0
+```
+
+Summarise clusters:
+```
+bsub -o summarise_clusters.o -e summarise_clusters.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \
+"python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta clips_cdhit | sort -nr -k2,2 > clusters_summary.txt"
+```
 
 
 
