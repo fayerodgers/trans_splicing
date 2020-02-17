@@ -55,6 +55,15 @@ Extract genes:
 python $GIT_HOME/trans_splicing/extract_genes.py --clusters 0 1 2 --cdhit_clusters clips_cdhit.clstr --metadata ../fastq/metadata.txt
 ```
 
-
+To generate the combined table with three top clusters:
+```
+#sum all columns for each cluster, eg:
+awk -v OFS="\t" '{ for(i=1; i<=NF;i++) j+=$i; print $0, j; j=0 }' SL2.txt | sed -e 's/gene://' | sort -k1,1 | sed -e 's/_\([123]\)/_\1_SL2/g' > temp.SL2.txt
+#join all three tables
+join -a 1 -a 2 -e 0 -1 1 -2 1 -o 0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16 temp.SL1.txt temp.SL2.txt > temp
+join -a 1 -a 2 -e 0 -1 1 -2 1 -o 0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,2.10,2.11,2.12,2.13,2.14,2.15,2.16,2.17 temp temp.SL3.txt > temp1
+#calculate totals
+awk -v OFS="\t" '{  j=$17+$33+$49; print $0, j; j=0 }' temp1 > SL_summary.txt
+```
 
 
