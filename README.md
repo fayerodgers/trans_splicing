@@ -36,7 +36,7 @@ done
 Combine clips from all libraries and cluster:
 
 ```
-touch all_clips.fa
+
 for i in $(ls -d */ | sed -e 's/\///'); do
    grep -A1 "orientation=acceptor" ${i}/out/clipped_reads.fa  | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" >> all_clips.fa 
 done
@@ -50,7 +50,10 @@ bsub -o summarise_clusters.o -e summarise_clusters.e -R'select[mem>=1000] rusage
 "python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta clips_cdhit | sort -nr -k2,2 > clusters_summary.txt"
 ```
 
-
+Extract genes:
+```
+python $GIT_HOME/trans_splicing/extract_genes.py --clusters 0 1 2 --cdhit_clusters clips_cdhit.clstr --metadata ../fastq/metadata.txt
+```
 
 
 
