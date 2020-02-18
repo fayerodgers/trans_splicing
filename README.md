@@ -65,5 +65,10 @@ join -a 1 -a 2 -e 0 -1 1 -2 1 -o 0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.1
 #calculate totals
 awk -v OFS="\t" '{  j=$17+$33+$49; print $0, j; j=0 }' temp1 > SL_summary.txt
 ```
+Plotting
+```
+#stats on mapping 
+for i in $(ls -d */ | sed -e 's/\///'); do $GIT_HOME/trans_splicing/parse_stats.sh $i/out; done
 
+```
 
