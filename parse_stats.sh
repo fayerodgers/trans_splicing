@@ -14,7 +14,7 @@ awk '$1>=5{print $3}' ${1}/transcripts.txt | sort | uniq -c | awk '{print $1}' |
 candidate_transcripts=$(wc -l ${1}/transcripts.txt)
 awk '{print $3}' ${1}/coordinates.txt | sort | uniq -c | sort -n -k2,2 > ${1}/bases_clipped_distribution.txt
 awk '$7 !~ /NA/{print $7}' ${1}/coordinates.txt | sort | uniq -c | sort -n -k2,2 > ${1}/distance_distribution.txt	
-echo ${i}$'\t'${total}$'\t'${unique}$'\t'${multi}$'\t'${clipped}$'\t'${in_gene}$'\t'${in_gene_and_acceptor}$'\t'${candidate_transcripts} >> ${1}/stats.txt	
+echo ${1}$'\t'${total}$'\t'${unique}$'\t'${multi}$'\t'${clipped}$'\t'${in_gene}$'\t'${in_gene_and_acceptor}$'\t'${candidate_transcripts} >> ${1}/stats.txt	
 
 
 

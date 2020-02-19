@@ -117,18 +117,20 @@ def determine_orientation(strand,clip_type):
         elif strand == '-' and clip_type == 'right':
         	return('acceptor')
 
-def print_files(clipped_reads,out_dir):
+def print_files(clipped_reads,out_dir,sample_id):
 	coords_file = open(os.path.join(out_dir,"coordinates.txt"),"w")
 	fasta = open(os.path.join(out_dir,"clipped_reads.fa"),"w")
 	keys = ["read_name","left_or_right","nbases","scaffold","coord","gene","position","orientation"]
 	for clip in clipped_reads:
-		fasta.write(">" + clip["read_name"] + ";scaffold=" + clip["scaffold"] + ";coordinate=" + str(clip["coord"])  + ";\n" + clip["clipped_seq"] + "\n")
+		if "gene" in clip:
+                    fasta.write(">" + clip["read_name"] + ";scaffold=" + clip["scaffold"] + ";coordinate=" + str(clip["coord"]) + ";gene=" + clip["gene"] + ";orientation=" + clip["orientation"] + ";sample=" + sample_id + ";\n" + clip["clipped_seq"] + "\n")
 		to_print=[]
 		for k in keys:	
 			if k in clip:	
 				to_print.append(str(clip[k]))
 			else:
 				to_print.append("NA")
+                to_print.append(sample_id)
 		coords_file.write("\t".join(to_print) + "\n")
 
 

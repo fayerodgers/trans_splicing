@@ -12,6 +12,7 @@ parser.add_argument('--nbases', action='store',type=int, help='only consider rea
 parser.add_argument('--upstream_bases', action='store',type=int, help='consider a position if it is within this number of bases of the annotated start codon')
 parser.add_argument('--out_dir', action='store', help='output directory')
 parser.add_argument('--read_types', action='store', help='unique, multi or all')
+parser.add_argument('--sample_id', action='store', help = 'string to use as sample name')
 
 args=parser.parse_args()
 
@@ -19,6 +20,6 @@ args=parser.parse_args()
 gff=open(args.gff,"r")
 (genes,transcripts)=isoseq.parse_gff(gff)
 clipped_reads = ts.parse_sam(args.bam, args.nbases, args.out_dir, args.read_types, genes, args.upstream_bases)
-ts.print_files(clipped_reads,args.out_dir)
+ts.print_files(clipped_reads,args.out_dir,args.sample_id)
 
 
