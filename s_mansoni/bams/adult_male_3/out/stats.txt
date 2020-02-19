@@ -1,2 +1,0 @@
-analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
-	3782430	2972115	321866	84667	79747	53415	614 adult_male_3/out/transcripts.txt

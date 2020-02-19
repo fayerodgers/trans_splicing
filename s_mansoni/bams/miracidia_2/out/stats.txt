@@ -1,2 +1,0 @@
-analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
-	16471666	13401780	1558389	492649	379204	224945	4288 miracidia_2/out/transcripts.txt
