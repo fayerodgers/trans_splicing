@@ -1,2 +1,0 @@
-analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
-	9576366	8580793	441745	197403	140916	92420	1043 HmicroS1_253205/out/transcripts.txt

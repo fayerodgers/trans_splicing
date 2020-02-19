@@ -1,2 +1,0 @@
-analysis_dir	total_reads	unique	multi	clipped	in_gene	in_gene_and_acceptor	candidate_transcripts
-	14714288	3868438	1592515	156972	121742	68984	1084 jird_metacestode_2/out/transcripts.txt
