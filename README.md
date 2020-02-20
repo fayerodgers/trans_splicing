@@ -55,7 +55,8 @@ Generate multiple alignments of interesting clusters:
 module load mafft/7.407=1
 clusters=(0 1 2)
 for i in ${clusters[@]}; do
-   bsub -o mafft.${i}.o -e mafft.${i}.e $GIT_HOME/trans_splicing/generate_alignments.sh clips_cdhit.clstr ${i} all_clips.fa done
+   bsub -o mafft.${i}.o -e mafft.${i}.e $GIT_HOME/trans_splicing/generate_alignments.sh clips_cdhit.clstr ${i} all_clips.fa
+done
 ```
 
 
