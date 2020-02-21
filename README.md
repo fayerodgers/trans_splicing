@@ -36,7 +36,6 @@ done
 Combine clips from all libraries and cluster:
 
 ```
-
 for i in $(ls -d */ | sed -e 's/\///'); do
    grep -A1 "orientation=acceptor" ${i}/out/clipped_reads.fa  | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" >> all_clips.fa 
 done
@@ -60,12 +59,12 @@ done
 ```
 
 
-Extract genes:
+Extract genes associated with clusters of interest:
 ```
-python $GIT_HOME/trans_splicing/extract_genes.py --clusters 0 1 2 --cdhit_clusters clips_cdhit.clstr --metadata ../fastq/metadata.txt
+python $GIT_HOME/trans_splicing/extract_genes.py --clusters 0 1 2 --cdhit_clusters clips_cdhit.clstr --metadata ../fastq/trimmed_metadata.txt
 ```
 
-To generate the combined table with three top clusters:
+To generate a combined table with three top clusters:
 ```
 #sum all columns for each cluster, eg:
 awk -v OFS="\t" '{ for(i=1; i<=NF;i++) j+=$i; print $0, j; j=0 }' SL2.txt | sed -e 's/gene://' | sort -k1,1 | sed -e 's/_\([123]\)/_\1_SL2/g' > temp.SL2.txt
@@ -73,12 +72,18 @@ awk -v OFS="\t" '{ for(i=1; i<=NF;i++) j+=$i; print $0, j; j=0 }' SL2.txt | sed 
 join -a 1 -a 2 -e 0 -1 1 -2 1 -o 0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16 temp.SL1.txt temp.SL2.txt > temp
 join -a 1 -a 2 -e 0 -1 1 -2 1 -o 0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,2.10,2.11,2.12,2.13,2.14,2.15,2.16,2.17 temp temp.SL3.txt > temp1
 #calculate totals
-awk -v OFS="\t" '{  j=$17+$33+$49; print $0, j; j=0 }' temp1 > SL_summary.txt
+awk -v OFS="\t" '{  j=$17+$33+$49; print $0, j; j=0 }' temp1 | awk '$NF>10{print $0}'> SLs.txt
 ```
 Plotting
 ```
 #stats on mapping 
 for i in $(ls -d */ | sed -e 's/\///'); do $GIT_HOME/trans_splicing/parse_stats.sh $i/out; done
+#ADD PLOT
 
+#cluster sizes
+Rscript $GIT_HOME/trans_splicing/plot_clusters.R --dir . --clusters clusters_summary.txt --title ${SPECIES}
+
+#Gene numbers
+Rscript $GIT_HOME/trans_splicing/plot_gene_numbers.R --dir . --trans_spliced_genes SLs.txt --library_counts SL1 SL2 SL3 --metadata ../fastq/trimmed_metadata.txt --title $SPECIES
 ```
 
