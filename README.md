@@ -50,6 +50,16 @@ bsub -o summarise_clusters.o -e summarise_clusters.e -R'select[mem>=1000] rusage
 "python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta clips_cdhit | sort -nr -k2,2 > clusters_summary.txt"
 ```
 
+Generate multiple alignments of interesting clusters:
+```
+module load mafft/7.407=1
+clusters=(0 1 2)
+for i in ${clusters[@]}; do
+   bsub -o mafft.${i}.o -e mafft.${i}.e $GIT_HOME/trans_splicing/generate_alignments.sh clips_cdhit.clstr ${i} all_clips.fa
+done
+```
+
+
 Extract genes:
 ```
 python $GIT_HOME/trans_splicing/extract_genes.py --clusters 0 1 2 --cdhit_clusters clips_cdhit.clstr --metadata ../fastq/metadata.txt
