@@ -6,7 +6,7 @@ import sys
 
 parser=argparse.ArgumentParser(description='Parse CD-HIT output')
 parser.add_argument('--clusters', action='store',help='cdhit.clstr file')
-parser.add_argument('--fasta', action='store',help='FASTA produced by CD-HIT')
+parser.add_argument('--fasta', action='store',help='all_clips.fa')
 args=parser.parse_args()
 
 clusters=open(args.clusters,"r")
@@ -37,7 +37,7 @@ for line in clusters:
 y=[]
 for cluster in my_clusters.keys():
 	y.append(my_clusters[cluster]["size"])
-	if my_clusters[cluster]["size"] < 10:
+	if my_clusters[cluster]["size"] < 1000:
 		sys.stdout.write(str(cluster) + "\t" + str(my_clusters[cluster]["size"]) + "\t" + "NA" + "\n")
 		continue
 	for line in fasta:
