@@ -46,7 +46,7 @@ cd-hit-est -i all_clips.fa -o clips_cdhit -sc 1 -sf 1 -d 0
 Summarise clusters:
 ```
 bsub -o summarise_clusters.o -e summarise_clusters.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \
-"python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta clips_cdhit | sort -nr -k2,2 > clusters_summary.txt"
+"python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta all_clips.fa | sort -nr -k2,2 > clusters_summary.txt"
 ```
 
 Generate multiple alignments of interesting clusters:
