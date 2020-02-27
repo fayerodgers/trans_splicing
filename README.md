@@ -40,7 +40,18 @@ for i in $(ls -d */ | sed -e 's/\///'); do
    grep -A1 "orientation=acceptor" ${i}/out/clipped_reads.fa  | grep -v '^-' | paste - -  | sort -u | tr "\t" "\n" >> all_clips.fa 
 done
 
-cd-hit-est -i all_clips.fa -o clips_cdhit -sc 1 -sf 1 -d 0
+#first cluster only exact matches
+cd-hit-est -i all_clips.fa -o cdhit_round1 -sc 1 -sf 1 -d 0 -aS 1 -aL 1
+
+#take representative sequences of clusters with > 100 reads and recluster them
+python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters cdhit_round1.clstr --fasta all_clips.fa --size 100 > cdhit_round1.cluster_sizes.txt
+
+awk -v OFS="," '$2> 100{print $1,$3}' cdhit_round1.cluster_sizes.txt | sed -e 's/^/>/' | tr "," "\n" > round1_topreps.fa
+
+cd-hit-est -i round1_topreps.fa -o cdhit_round2 -sc 1 -sf 1 -d 0 -aS 1 
+
+#merge clusters of identical subsequences
+
 ```
 
 Summarise clusters:
