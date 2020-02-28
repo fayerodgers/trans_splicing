@@ -53,7 +53,7 @@ cd-hit-est -i round1_topreps.fa -o cdhit_round2 -sc 1 -sf 1 -d 0 -aS 1
 #merge clusters of identical subsequences
 python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters cdhit_round2.clstr --fasta all_clips.fa --members | sort -n -k1,1 > round2_megaclusters.txt
 
-join -j 1 -e 'NA' -o 0,1.2,1.3,2.2 -a 1 cdhit_round1.cluster_sizes.txt round2_megaclusters.txt > clusters.txt
+join -j 1 -e 'NA' -o 0,1.2,1.3,2.2 -a 1 cdhit_round1.cluster_sizes.txt round2_megaclusters.txt | sed -e 's/\([0-9]\)$/\1.mega/g' clusters.txt > clusters.txt
 
 ```
 
