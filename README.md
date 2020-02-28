@@ -51,13 +51,10 @@ awk -v OFS="," '$2> 100{print $1,$3}' cdhit_round1.cluster_sizes.txt | sed -e 's
 cd-hit-est -i round1_topreps.fa -o cdhit_round2 -sc 1 -sf 1 -d 0 -aS 1 
 
 #merge clusters of identical subsequences
+python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters cdhit_round2.clstr --fasta all_clips.fa --members | sort -n -k1,1 > round2_megaclusters.txt
 
-```
+join -j 1 -e 'NA' -o 0,1.2,1.3,2.2 -a 1 cdhit_round1.cluster_sizes.txt round2_megaclusters.txt > clusters.txt
 
-Summarise clusters:
-```
-bsub -o summarise_clusters.o -e summarise_clusters.e -R'select[mem>=1000] rusage[mem=1000]' -M 1000 \
-"python ${GIT_HOME}/trans_splicing/parse_cdhit.py --clusters clips_cdhit.clstr --fasta all_clips.fa | sort -nr -k2,2 > clusters_summary.txt"
 ```
 
 Generate multiple alignments of interesting clusters:
