@@ -90,7 +90,10 @@ Plotting
 ```
 #stats on mapping 
 for i in $(ls -d */ | sed -e 's/\///'); do $GIT_HOME/trans_splicing/parse_stats.sh $i/out; done
-#ADD PLOT
+
+#combine all stats file into one, and add a column for species, then:
+Rscript $GIT_HOME/trans_splicing/plot_mapping_rate.R --dir . --stats stats.txt
+
 
 #cluster sizes
 Rscript $GIT_HOME/trans_splicing/plot_clusters.R --dir . --clusters clusters_summary.txt --title ${SPECIES}
