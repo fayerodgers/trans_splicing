@@ -99,6 +99,6 @@ Rscript $GIT_HOME/trans_splicing/plot_mapping_rate.R --dir . --stats stats.txt
 Rscript $GIT_HOME/trans_splicing/plot_clusters.R --dir . --clusters clusters_summary.txt --title ${SPECIES}
 
 #Gene numbers
-Rscript $GIT_HOME/trans_splicing/plot_gene_numbers.R --dir . --trans_spliced_genes SLs.txt --library_counts SL1 SL2 SL3 --metadata ../fastq/trimmed_metadata.txt --title $SPECIES
+Rscript $GIT_HOME/trans_splicing/plot_gene_numbers.R --dir . --trans_spliced_genes SLs_10reads.txt --library_counts SL1 SL2 SL3 --metadata ../fastq/trimmed_metadata.txt --title $SPECIES
 ```
 
