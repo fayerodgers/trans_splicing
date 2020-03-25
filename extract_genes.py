@@ -4,15 +4,15 @@ import json
 
 
 parser=argparse.ArgumentParser(description='extract genes associated with specified clusters')
-parser.add_argument('--clusters',action='store',nargs='+', type=int, help = 'white space separated list of clusters to identify genes from')
+parser.add_argument('--clusters',action='store',nargs='+', help = 'white space separated list of clusters to identify genes from"')
 parser.add_argument('--cdhit_clusters',action='store',help='cdhit.clstr file')
 parser.add_argument('--metadata', action='store',help='metadata.txt (sample names in first column)')
+parser.add_argument('--clusters_text_file',action='store',help='clusters.txt')
 
 args=parser.parse_args()
 
-def parse_clusters(cluster,cluster_file):
+def parse_clusters(cluster,cluster_file,genes):
 	clusters=open(cluster_file,"r")
-	genes={}
 	x=0
 	for line in clusters:
             line=line.rstrip()
@@ -25,6 +25,7 @@ def parse_clusters(cluster,cluster_file):
                     continue
 	    if x==1:
 	        genes=parse_line(line,genes)
+        clusters.close()
 	return(genes)
 
 
@@ -48,17 +49,33 @@ def parse_line(line,genes):
 	return(genes)
 
 
+def lookup_clusters(megacluster,clusters_text_file):
+    clusters_file=open(clusters_text_file,"r")
+    smaller_clusters=[]
+    for line in clusters_file:
+        line=line.rstrip()
+        temp=line.split("\t")
+        if temp[3] == megacluster:
+            smaller_clusters.append(int(temp[0]))
+    clusters_file.close()
+    return(smaller_clusters)
+
+
+
 metadata=open(args.metadata,"r")
 samples=[]
 for line in metadata:
     temp=line.split("\t")
     samples.append(temp[0])
 samples=list(set(samples))
+samples.sort()
 
-for cluster in args.clusters:
-        genes_in_this_cluster=parse_clusters(cluster,args.cdhit_clusters)
-        print(json.dumps(genes_in_this_cluster,indent=4))
-        FH=open(str(cluster)+".txt","w")
+for megacluster in args.clusters:
+        smaller_clusters=lookup_clusters(megacluster,args.clusters_text_file)
+        genes_in_this_cluster={}
+        for cluster in smaller_clusters:
+            genes_in_this_cluster=parse_clusters(cluster,args.cdhit_clusters,genes_in_this_cluster)
+        FH=open(str(megacluster)+".txt","w")
         FH.write("\t"+"\t".join(samples)+"\n") 
         for gene in genes_in_this_cluster.keys():
             n=[]
