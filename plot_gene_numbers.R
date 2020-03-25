@@ -10,10 +10,11 @@ parser$add_argument("--metadata",help="metadata.txt, should have columns with 's
 parser$add_argument("--title", help="plot title")
 args <- parser$parse_args()
 
-#args$dir<-"/Users/fr7/git_repos/trans_splicing/e_multilocularis"
-#args$trans_spliced_genes<-"/Users/fr7/git_repos/trans_splicing/e_multilocularis/SLs.txt"
-#args$metadata<-"/Users/fr7/git_repos/trans_splicing/e_multilocularis/trimmed_metadata.txt"
-#args$library_counts<-c('SL')
+#args$dir<-"/Users/fr7/git_repos/trans_splicing/h_microstoma"
+#args$trans_spliced_genes<-"/Users/fr7/git_repos/trans_splicing/h_microstoma/SLs_10reads.txt"
+#args$metadata<-"/Users/fr7/git_repos/trans_splicing/h_microstoma/trimmed_metadata.txt"
+#args$library_counts<-c('SL1', 'SL2','SL3')
+#args$title<-'H microstoma'
 
 ts_genes<-read.table(args$trans_spliced_genes,header=TRUE)
 ts_genes<-as.character(ts_genes$gene)
@@ -60,7 +61,7 @@ p2<-ggplot(sls.df,aes(meta,count,fill=SL))+
   #    geom_text(aes(label=ifelse(n>5000,as.character(seq),'')),hjust=0,vjust=0,size=2)+
   xlab("Sample")+
   ylab("Genes with >=1 SL reads")+
-  theme(text = element_text(size=20), plot.title = element_text(hjust=0.5), axis.text.x=element_text(angle=45,hjust=1,size=10))+
+  theme(text = element_text(size=20), plot.title = element_text(hjust=0.5), axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))+
   labs(title = args$plot_title)
 
 pdf(file.path(args$dir,paste0(args$title,".genes.pdf")))
