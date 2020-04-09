@@ -134,43 +134,4 @@ def print_files(clipped_reads,out_dir,sample_id):
 		coords_file.write("\t".join(to_print) + "\n")
 
 
-### delete below if not used
-
-
-def count_sites(ts_candidates):
-	counts={}
-	splice_types=['donor_internal','donor_leading','acceptor_internal','acceptor_leading']
-	for splice_type in splice_types:
-		counts[splice_type]={}
-		counts[splice_type]['single']=0
-		counts[splice_type]['any']=0
-	for transcript in ts_candidates.keys():
-		for splice_rel in ts_candidates[transcript].keys():
-			count=len(ts_candidates[transcript][splice_rel])
-			if count == 1:
-				counts[splice_rel]['single'] += 1
-			counts[splice_rel]['any'] += 1
-	return(counts)
-							
-
-
-def plot_counts(counts,transcript_type,out_dir):
-	plt.style.use('ggplot')
-	y_leading = [counts['acceptor_leading'][transcript_type],counts['donor_leading'][transcript_type]]
-	y_internal = [counts['acceptor_internal'][transcript_type],counts['donor_internal'][transcript_type]]
-	x=('Acceptor sites', 'Donor sites')
-	x_pos = [1,2]
-
-	p1 = plt.bar(x_pos,y_leading)
-	p2 = plt.bar(x_pos,y_internal,bottom=y_leading)
-#	plt.bar(x_pos,y, color='green')
-	plt.ylabel("No. of transcripts")
-	plt.title("Putative trans-spliced transcripts")
-	plt.xticks(x_pos,x)
-	plt.legend((p1[0], p2[0]), ('5prime sites', 'Internal sites'))
-#	plt.show()
-	plt.savefig(os.path.join(out_dir,(transcript_type + "_sites.png")))
-	
-
-
 ##
